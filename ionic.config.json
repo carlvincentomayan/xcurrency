@@ -1,0 +1,7 @@
+{
+  "name": "xcurrency",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
