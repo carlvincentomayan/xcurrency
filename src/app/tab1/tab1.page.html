@@ -1,17 +1,76 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding>
+  <!-- #region value -->
+  <div class="contents">
+    <ion-row style="justify-content: center;
+    margin-top: -25%;">
+      <p style="font-size: xx-large;color: rgb(216, 208, 208);">xChange Rate</p>
+    </ion-row>
+    <ion-row>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+      <ion-icon class="calcbuttonicon" name="calculator-outline"></ion-icon> <ion-input
+        [ngClass]="process ? 'disableme':'none'" (keypress)="allowNumericDigitsOnlyOnKeyUp($event)"
+        style="text-align: center;margin: 5% 2.5%;font-size: x-large; font-family: system-ui;" type="number"
+        class="value-input inputamount" [(ngModel)]="fromValue" placeholder="Amount"
+        (keydown)="calculateCurrencyOne()"></ion-input>
+    </ion-row>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <!-- <ion-row>
+      <ion-input type="number" class="value-input" [(ngModel)]="toValue" placeholder="to" (keyup)="calculateCurrencyTwo()"></ion-input>
+    </ion-row> -->
+  </div>
+  <!-- #endregion -->
+
+  <!-- #region -->
+  <ion-row>
+    <ion-col class="selectors">
+      <!-- <ion-select style="font-family: system-ui;" [(ngModel)]="fromCurr" class="select-list dropdown-menu" (change)="getCurrencyRate()">
+        <ion-select-option *ngFor="let item of countryCodes;" selected value="{{item.currency}}">{{item.currency}} - {{item.country}}</ion-select-option>
+      </ion-select> -->
+
+
+      <select #selectfrom style="font-family: system-ui;" class="select-list" [(ngModel)]="fromCurr"
+        (change)="getCurrencyRate($event)">
+        <!-- <option *ngFor="let item1 of localstorageItems;let idx1 = index;" value="{{item1.currency}}">{{item1.currency}} - {{item1.country}}</option>
+        <hr class="solid"> -->
+        <option *ngFor="let item of countryCodes;let idx = index;" value="{{item.currency}}">{{item.currency}} -
+          {{item.country}}</option>
+      </select>
+    </ion-col>
+    <!-- {{item.currencyinfo["name"]}} -->
+    <ion-col>
+      <select #selectto style="font-family: system-ui;" class="select-list" [(ngModel)]="toCurr"
+        (change)="getCurrencyRate($event)">
+        <option *ngFor="let item of countryCodes;let idx = index;" value="{{item.currency}}">{{item.currency}} -
+          {{item.country}}</option>
+
+      </select>
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="justify-content: center;">
+    <ion-card class="card-view"
+      style="width: 85vw;background-color: rgb(44,18,71);border-radius: 25px;    box-shadow: 0 10px 10px 0 rgb(34 34 34 / 40%);">
+      <ion-card-header class="card-header">
+        <p style="font-size: x-large;color: white;">{{tcurrInfo?.symbol}} : {{resultRate}}</p>
+        <ion-row>
+          <p>Rate : {{currRate}}</p>
+        </ion-row>
+        <ion-row>
+          <p>Date : {{date}}</p>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content style="color: white;" class="card-contents">
+        <ion-row style="padding-bottom: 10px;">
+          <img style="width: 35px;" src="{{fromflag}}"> &nbsp; <p>{{fcurrInfo?.name}}</p>
+        </ion-row>
+        <ion-row>
+          <img style="width: 35px;" src="{{toflag}}">&nbsp;<p>{{tcurrInfo?.name}}</p>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-row>
+  <!-- #endregion -->
+  <footer *ngIf="error.val" style="position: fixed;bottom: 0;text-align: center;">
+    <p style="color:red;font-size: x-small;">{{error.msg}}</p>
+  </footer>
 </ion-content>
